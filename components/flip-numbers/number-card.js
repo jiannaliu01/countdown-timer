@@ -11,7 +11,7 @@ import Card from './card';
 const width = 1000;
 
 export default function NumberCard({
-  textColor, flipColor, size, number, previousNumber, perspective, cardStyle, numberStyle, flipCardStyle
+  textColor, flipColorGrad, flipColor, size, number, previousNumber, perspective, cardStyle, numberStyle, flipCardStyle
 }) {
     const rotateFront = useRef(new Animated.Value(0)).current;
     const rotateBack = useRef(new Animated.Value(-180)).current;
@@ -93,6 +93,7 @@ export default function NumberCard({
               number={number}
               cardStyle={cardStyle}
               flipColor = {flipColor}
+              flipColorGrad = {flipColorGrad}
               numberStyle={numberStyle}
               textColor = {textColor}
             />
@@ -102,11 +103,13 @@ export default function NumberCard({
               number={number}
               cardStyle={cardStyle}
               flipColor = {flipColor}
+              flipColorGrad = {flipColorGrad}
               numberStyle={numberStyle}
               textColor = {textColor}
             />
             <FlipCard
-             flipColor = {flipColor}
+              flipColor = {flipColor}
+              flipColorGrad = {flipColorGrad}
               setRef={setFrontRef}
               type="front"
               size={size}
@@ -117,6 +120,7 @@ export default function NumberCard({
             />
             <FlipCard
               flipColor = {flipColor}
+              flipColorGrad = {flipColorGrad}
               setRef={setBackRef}
               type="back"
               size={size}

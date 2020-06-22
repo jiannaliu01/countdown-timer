@@ -19,7 +19,8 @@ export default function CountdownTimer({
     textColor, 
     wrapperStyle, 
     flipNumberProps,
-    flipColor}) {
+    flipColor,
+    flipColorGrad}) {
     const [today, setToday] = useState(new Date());
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -53,13 +54,11 @@ export default function CountdownTimer({
 
     const countUpTime = () => {
         setToday(new Date());
-        console.log('HERE')
         const difference = getDifference(new Date());
         setDays(-1*difference[0]);
         setHours(-1*difference[1]);
         setMinutes(-1*difference[2]);
         setSeconds(-1*difference[3]);
-        console.log(days, hours, minutes, seconds, 'heyy')
     }
 
     const updateTime = () => {
@@ -123,13 +122,13 @@ export default function CountdownTimer({
 
     return(
         <View style={[style.wrapper, wrapperStyle]}>
-        {!!days && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={days} unit="days" {...flipNumberProps} />}
+        {!!days && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={days} unit="days" {...flipNumberProps} />}
         <Separator />
-        {!!hours && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={hours} unit="hours" {...flipNumberProps} />}
+        {!!hours && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={hours} unit="hours" {...flipNumberProps} />}
         <Separator />
-        {!!minutes && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={minutes} unit="minutes" {...flipNumberProps} />}
+        {!!minutes && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={minutes} unit="minutes" {...flipNumberProps} />}
         <Separator />
-        {!!seconds && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={seconds} unit="seconds" {...flipNumberProps} />}
+        {!!seconds && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={seconds} unit="seconds" {...flipNumberProps} />}
       </View>
     );
 }

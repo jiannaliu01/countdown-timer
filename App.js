@@ -12,7 +12,8 @@ const instructions = Platform.select({
 
 export default function App() {
   const [play, setPlay] = useState(true);
-
+  //Note: to make one color without gradient, flipColorGrad
+  //will be the same color code
   return (
     <View style={styles.container}>
         <CountdownTimer 
@@ -27,6 +28,7 @@ export default function App() {
           countdown={false} 
           textColor = {'white'}
           flipColor = {'#333333'}
+          flipColorGrad = {'333333'}
           />
         <TouchableOpacity style={styles.button} onPress={() => setPlay(!play)}>
           <Text style={styles.text}>{play ? 'Pause' : 'Play'}</Text>

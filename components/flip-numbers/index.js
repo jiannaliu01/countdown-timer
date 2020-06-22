@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import style from '../../style';
 
 export default function FlipNumber({
-  textColor, flipColor, number, unit, size, perspective, numberWrapperStyle, cardStyle, flipCardStyle, numberStyle,
+  textColor, flipColor, flipColorGrad, number, unit, size, perspective, numberWrapperStyle, cardStyle, flipCardStyle, numberStyle,
 }) {
     var previousNumber = number - 1;
     if (unit != 'hours') {
@@ -24,6 +24,7 @@ export default function FlipNumber({
     <View style={[style.wrapper]}>
       <NumberCard
         flipColor = {flipColor}
+        flipColorGrad = {flipColorGrad}
         textColor = {textColor}
         number={numberSplit[0]}
         previousNumber={previousNumberSplit[0]}
@@ -36,6 +37,7 @@ export default function FlipNumber({
       />
       <NumberCard
         flipColor = {flipColor}
+        flipColorGrad = {flipColorGrad}
         textColor = {textColor}
         number={numberSplit[1]}
         previousNumber={previousNumberSplit[1]}
