@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import {useState} from 'react';
+import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import FlipNumber from "./components/flip-numbers";
 import CountdownTimer from './components/countdown-timer';
@@ -10,26 +11,47 @@ const instructions = Platform.select({
 });
 
 export default function App() {
+  const [play, setPlay] = useState(true);
+
   return (
-    <CountdownTimer></CountdownTimer>
+    <View style={styles.container}>
+        <CountdownTimer 
+          launchYear = {2020} 
+          launchMonth = {5}
+          launchDate = {21}
+          launchHour = {11}
+          launchMinute = {0}
+          launchSecond = {30}
+          time={500} 
+          play={play} 
+          countdown={false} 
+          textColor = {'white'}
+          flipColor = {'#333333'}
+          />
+        <TouchableOpacity style={styles.button} onPress={() => setPlay(!play)}>
+          <Text style={styles.text}>{play ? 'Pause' : 'Play'}</Text>
+        </TouchableOpacity>
+      </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'white',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  button: {
+    height: 40,
+    backgroundColor: '#333333',
+    width: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#cccccc',
   },
 });

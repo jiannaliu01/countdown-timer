@@ -7,7 +7,19 @@ import PropTypes from 'prop-types';
 
 import style from '../style';
 
-export default function CountdownTimer({play, wrapperStyle, flipNumberProps}) {
+export default function CountdownTimer({
+    countdown, 
+    play, 
+    launchYear,
+    launchMonth,
+    launchDate,
+    launchHour,
+    launchMinute,
+    launchSecond,
+    textColor, 
+    wrapperStyle, 
+    flipNumberProps,
+    flipColor}) {
     const [today, setToday] = useState(new Date());
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
@@ -18,65 +30,81 @@ export default function CountdownTimer({play, wrapperStyle, flipNumberProps}) {
 
     useEffect(() => {
         //do API call right here to get launch date
-        const launchDate = new Date(2020, 3, 4, 11, 0, 0);
         setToday(new Date());
-        console.log(today, today.getMonth(), today.getSeconds, "TODAY")
-        //const today = new Date();
-        console.log(today, 'heyyyy')
         const timer = setInterval(() =>
             updateTime(), 1000,
         )
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            updateTime()
-          }, 1000);
-        console.log(hours, days, minutes, seconds)
-          return () => clearInterval(interval);
+        if (countdown) {
+            const interval = setInterval(() => {
+                updateTime()
+            }, 1000);
+            return () => clearInterval(interval);
+        }
+        else {
+            const interval = setInterval(() => {
+                countUpTime()
+            }, 1000);
+            return () => clearInterval(interval);
+        }
     }, [today]);
 
-    const updateTime = () => {
-        const launchDate = new Date(2020, 3, 4, 11, 0, 0);
+    const countUpTime = () => {
         setToday(new Date());
-        const difference = getDifference(launchDate, new Date());
-        console.log(difference, "HEYY DIFF")
+        console.log('HERE')
+        const difference = getDifference(new Date());
+        setDays(-1*difference[0]);
+        setHours(-1*difference[1]);
+        setMinutes(-1*difference[2]);
+        setSeconds(-1*difference[3]);
+        console.log(days, hours, minutes, seconds, 'heyy')
+    }
+
+    const updateTime = () => {
+        setToday(new Date());
+        const difference = getDifference(new Date());
         setDays(difference[0]);
         setHours(difference[1]);
         setMinutes(difference[2]);
         setSeconds(difference[3]);
     };
 
-    const countLeapYears = (day) => {
-        var years = day.getFullYear();
+    const countLeapYears = (launchYear, launchMonth) => {
+        var years = launchYear
 
-        if (day.getMonth() <= 2) {
+        if (launchMonth <= 2) {
             years -= 1
         }
         return Math.round(years/4-years/100+years/400);
     };
 
-    const getDifference = (launchDate, today) => {
-        var n1 = launchDate.getFullYear() * 365 + launchDate.getDay();
-        for(var i =0; i < launchDate.getMonth(); i++) {
+    const getDifference = (today) => {
+        var n1 = launchYear * 365 + launchDate;
+        for(var i =0; i < launchMonth; i++) {
             n1 += month_to_days[i]
         }
-        n1 += countLeapYears(launchDate);
+        n1 += countLeapYears(launchYear, launchMonth);
 
-        var n2 = today.getFullYear()* 365 + today.getDay()
-        for(var i =0; i < launchDate.getMonth(); i++) {
+        var n2 = today.getFullYear()* 365 + today.getDate()
+        for(var i =0; i < today.getMonth(); i++) {
             n2 += month_to_days[i]
         }
-        n2 += countLeapYears(today);
+        n2 += countLeapYears(today.getFullYear(), today.getMonth());
 
-        var seconds = launchDate.getSeconds() - today.getSeconds();
-        console.log(launchDate.getSeconds(), today.getSeconds(), 'SECONDS')
-        var minutes = launchDate.getMinutes() - today.getMinutes();
-        console.log(launchDate.getMinutes(), today.getMinutes(), 'MINUTES')
-        var hours = launchDate.getHours() - today.getHours();
-        console.log(launchDate.getHours(), today.getHours(), 'HOURS')
-        var days = n1 - n2;
-        console.log()
+        if (countdown) {
+            var seconds = launchSecond - today.getSeconds();
+            var minutes = launchMinute - today.getMinutes();
+            var hours = launchHour - today.getHours();
+            var days = n1 - n2;
+        }
+        else {
+            var seconds = today.getSeconds() - launchSecond
+            var minutes = today.getMinutes() - launchMinute;
+            var hours = today.getHours() - launchHour;
+            var days = n2 - n1;
+        }
         if (seconds < 0) {
             seconds = 60 + seconds
             minutes -= 1
@@ -95,13 +123,13 @@ export default function CountdownTimer({play, wrapperStyle, flipNumberProps}) {
 
     return(
         <View style={[style.wrapper, wrapperStyle]}>
-        {!!days && <FlipNumber number={days} unit="days" {...flipNumberProps} />}
+        {!!days && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={days} unit="days" {...flipNumberProps} />}
         <Separator />
-        {!!hours && <FlipNumber number={hours} unit="hours" {...flipNumberProps} />}
+        {!!hours && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={hours} unit="hours" {...flipNumberProps} />}
         <Separator />
-        {!!minutes && <FlipNumber number={minutes} unit="minutes" {...flipNumberProps} />}
+        {!!minutes && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={minutes} unit="minutes" {...flipNumberProps} />}
         <Separator />
-        {!!seconds && <FlipNumber number={seconds} unit="seconds" {...flipNumberProps} />}
+        {!!seconds && <FlipNumber textColor = {textColor} flipColor = {flipColor} number={seconds} unit="seconds" {...flipNumberProps} />}
       </View>
     );
 }

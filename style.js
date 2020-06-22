@@ -5,7 +5,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   numberWrapper: {
-    backgroundColor: '#333333',
     margin: 3,
     shadowColor: '#1f1f1f',
     shadowOffset: {
@@ -28,14 +27,12 @@ export default StyleSheet.create({
   },
   number: {
     fontWeight: '700',
-    color: '#cccccc',
   },
   flipCard: {
     position: 'absolute',
     left: 0,
     height: '50%',
     width: '100%',
-    backgroundColor: '#333333',
     borderColor: '#1f1f1f',
     backfaceVisibility: 'hidden',
     alignItems: 'center',

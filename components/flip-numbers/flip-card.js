@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import style from '../../style';
 
 export default function FlipCard({
-    setRef, type, size, number, flipCardStyle, numberStyle
+    flipColor, textColor, setRef, type, size, number, flipCardStyle, numberStyle
 }) {
     return(
     <Animated.View
@@ -14,12 +14,14 @@ export default function FlipCard({
             type === 'front'
             ? {
                 top: 0,
+                backgroundColor: flipColor, 
                 borderTopLeftRadius: size / 10,
                 borderTopRightRadius: size / 10,
                 borderBottomWidth: 0.5,
             }
             : {
                 top: '50%',
+                backgroundColor: flipColor,
                 borderBottomLeftRadius: size / 10,
                 borderBottomRightRadius: size / 10,
                 borderTopWidth: 0.5,
@@ -29,6 +31,7 @@ export default function FlipCard({
         >
         <View style={style.overflowContainer}>
             <Text style={[style.number, {
+            color: textColor,
             transform: [type === 'front' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
             fontSize: size / 1.5,
             lineHeight: size / 1.5,

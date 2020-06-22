@@ -5,11 +5,12 @@ import style from '../../style';
 import PropTypes from 'prop-types';
 
 export default function Card({
-    type, size, number, cardStyle, numberStyle,
+  flipColor, textColor, type, size, number, cardStyle, numberStyle,
 }) {
   return ( 
-    <View style={[style.card, type === 'upper' ? { borderBottomWidth: 0.5 } : { borderTopWidth: 0.5 }, cardStyle]}>
+    <View style={[style.card, type === 'upper' ? { backgroundColor: flipColor, borderBottomWidth: 0.5 } : { backgroundColor: flipColor, borderTopWidth: 0.5 }, cardStyle]}>
       <Text style={[style.number, {
+        color: textColor,
         transform: [type === 'upper' ? { translateY: size * 0.3 } : { translateY: -size * 0.3 }],
         fontSize: size / 1.5,
         lineHeight: size / 1.5,

@@ -11,12 +11,12 @@ import Card from './card';
 const width = 1000;
 
 export default function NumberCard({
-    size, number, previousNumber, perspective, cardStyle, numberStyle, flipCardStyle
+  textColor, flipColor, size, number, previousNumber, perspective, cardStyle, numberStyle, flipCardStyle
 }) {
     const rotateFront = useRef(new Animated.Value(0)).current;
     const rotateBack = useRef(new Animated.Value(-180)).current;
-    const [frontRef, setFrontRef] = useState(null);
-    const [backRef, setBackRef] = useState(null);
+    var frontRef = useRef(null);
+    var backRef = useRef(null);
 
     //const width = Dimensions.get('window');
 
@@ -34,14 +34,35 @@ export default function NumberCard({
         animateTick();
     }, [previousNumber]);
 
+    const setFrontRef = (ref) => {
+      // console.log('I AM HERE FONRT REF', ref)
+      // console.log(frontRef)
+      if (!frontRef) {
+        return;
+      }
+      frontRef.current = ref;
+    }
+
+    const setBackRef = (ref) => {
+      if (!backRef) {
+        return;
+      }
+      // console.log('I AM HERE BACK REF', ref)
+      // console.log(backRef)
+      backRef.current = ref;
+    }
+
     const transformRef = (ref, deg, y) => {
         const matrix = TransformUtil.createIdentityMatrix();
         TransformUtil.translateMatrix(matrix, { x: 0, y, z: 0 });
         TransformUtil.perspectiveMatrix(matrix, perspective);
         TransformUtil.rotateXMatrix(matrix, deg);
         TransformUtil.untranslateMatrix(matrix, { x: 0, y, z: 0 });
-        if (ref) {
-          ref.setNativeProps({ style: { transform: [{ matrix }] } });
+        //console.log('ref transformref', ref)
+        //console.log('ref CURREENTTTT', ref.current)
+        if (ref.current) {
+          //console.log('ref CURRENT INSIDEEE', ref)
+          ref.current.setNativeProps({ style: { transform: [{ matrix }] } });
         }
       }
 
@@ -52,49 +73,57 @@ export default function NumberCard({
           Animated.timing(rotateFront, {
             toValue: 180,
             duration: 800,
-            useNativeDriver: true,
+            //useNativeDriver: true,
           }),
           Animated.timing(rotateBack, {
             toValue: 0,
             duration: 800,
-            useNativeDriver: true,
+            //useNativeDriver: true,
           }),
         ]).start();
       }
     return (
         <View style={[style.numberWrapper,
-            { width: size * 0.8, height: size * 1.2, borderRadius: size / 10 },
+            { backgroundColor: flipColor, width: size * 0.8, height: size * 1.2, borderRadius: size / 10 },
             ]}
           >
             <Card
               type="upper"
               size={size}
-              number={previousNumber}
+              number={number}
               cardStyle={cardStyle}
+              flipColor = {flipColor}
               numberStyle={numberStyle}
+              textColor = {textColor}
             />
             <Card
               type="lower"
               size={size}
               number={number}
               cardStyle={cardStyle}
+              flipColor = {flipColor}
               numberStyle={numberStyle}
+              textColor = {textColor}
             />
             <FlipCard
+             flipColor = {flipColor}
               setRef={setFrontRef}
               type="front"
               size={size}
               number={number}
               flipCardStyle={flipCardStyle}
               numberStyle={numberStyle}
+              textColor = {textColor}
             />
             <FlipCard
+              flipColor = {flipColor}
               setRef={setBackRef}
               type="back"
               size={size}
-              number={previousNumber}
+              number={number}
               flipCardStyle={flipCardStyle}
               numberStyle={numberStyle}
+              textColor = {textColor}
             />
           </View>
     );
