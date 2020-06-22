@@ -10,6 +10,10 @@ import style from '../style';
 export default function CountdownTimer({
     countdown, 
     play, 
+    showDays,
+    showHours,
+    showMinutes,
+    showSeconds,
     launchYear,
     launchMonth,
     launchDate,
@@ -122,13 +126,13 @@ export default function CountdownTimer({
 
     return(
         <View style={[style.wrapper, wrapperStyle]}>
-        {!!days && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={days} unit="days" {...flipNumberProps} />}
+        {showDays && !!days && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={days} unit="days" {...flipNumberProps} />}
         <Separator />
-        {!!hours && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={hours} unit="hours" {...flipNumberProps} />}
+        {showHours && !!hours && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={hours} unit="hours" {...flipNumberProps} />}
         <Separator />
-        {!!minutes && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={minutes} unit="minutes" {...flipNumberProps} />}
+        {showMinutes && !!minutes && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={minutes} unit="minutes" {...flipNumberProps} />}
         <Separator />
-        {!!seconds && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={seconds} unit="seconds" {...flipNumberProps} />}
+        {showSeconds && !!seconds && <FlipNumber textColor = {textColor} flipColor = {flipColor} flipColorGrad = {flipColorGrad} number={seconds} unit="seconds" {...flipNumberProps} />}
       </View>
     );
 }
@@ -136,6 +140,10 @@ export default function CountdownTimer({
 CountdownTimer.defaultProps = {
     play: true,
     wrapperStyle: {},
+    showDays: true,
+    showHours: true,
+    showMinutes: true,
+    showSeconds: true
   };
   
   CountdownTimer.propTypes = {

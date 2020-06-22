@@ -19,13 +19,17 @@ export default function App() {
         <CountdownTimer 
           launchYear = {2020} 
           launchMonth = {5}
-          launchDate = {21}
+          launchDate = {24}
           launchHour = {11}
           launchMinute = {0}
           launchSecond = {30}
+          showDays = {true}
+          showHours = {true}
+          showMinutes = {true}
+          showSeconds = {true}
           time={500} 
           play={play} 
-          countdown={false} 
+          countdown={true} 
           textColor = {'white'}
           flipColor = {'#333333'}
           flipColorGrad = {'333333'}
