@@ -9,6 +9,7 @@ export default function FlipNumber({
   textColor, flipColor, flipColorGrad, number, unit, size, perspective, numberWrapperStyle, cardStyle, flipCardStyle, numberStyle,
 }) {
     var previousNumber = number - 1;
+    console.log(previousNumber, number, "HEY NUMBER")
     if (unit != 'hours') {
         previousNumber = previousNumber === -1 ? 59 : previousNumber;
     }

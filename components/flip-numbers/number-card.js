@@ -13,8 +13,28 @@ const width = 1000;
 export default function NumberCard({
   textColor, flipColorGrad, flipColor, size, number, previousNumber, perspective, cardStyle, numberStyle, flipCardStyle
 }) {
-    const rotateFront = useRef(new Animated.Value(0)).current;
-    const rotateBack = useRef(new Animated.Value(-180)).current;
+    // const rotateFront = useRef(new Animated.Value(0)).current;
+    // const rotateBack = useRef(new Animated.Value(-180)).current;
+    const animatedValue = useRef(new Animated.Value(0)).current;
+    const [value, setValue] = useState(0);
+    const frontInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg'],
+    })
+    const backInterpolate = animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg'],
+    })
+    const frontAnimatedStyle = {
+      transform: [
+        {rotateX: frontInterpolate}
+      ]
+    }
+    const backAnimatedStyle = {
+      transform: [
+        {rotateX: backInterpolate}
+      ]
+    }
     var frontRef = useRef(null);
     var backRef = useRef(null);
 
@@ -22,12 +42,17 @@ export default function NumberCard({
 
     useEffect(() => {
         animateTick();
-        rotateFront.addListener(({ value }) => {
-            transformRef(frontRef, value, size*0.3)
+        // rotateFront.addListener(({ value }) => {
+        //     transformRef(frontRef, value, size*0.3)
+        // })
+        // rotateBack.addListener(({value}) => {
+        //     transformRef(backRef, value, -size*0.3)
+        // })  
+       // value = 0
+        animatedValue.addListener(({value}) => {
+          setValue(value);
         })
-        rotateBack.addListener(({value}) => {
-            transformRef(backRef, value, -size*0.3)
-        })  
+
     }, []);
 
     useEffect(() => {
@@ -67,20 +92,32 @@ export default function NumberCard({
       }
 
     const animateTick = () => {
-        rotateFront.setValue(0);
-        rotateBack.setValue(-180);
-        Animated.parallel([
-          Animated.timing(rotateFront, {
-            toValue: 180,
-            duration: 800,
-            //useNativeDriver: true,
-          }),
-          Animated.timing(rotateBack, {
+        // rotateFront.setValue(0);
+        // rotateBack.setValue(-180);
+        console.log(value, 'value')
+        if (value >= 90) {
+          Animated.spring(animatedValue, {
             toValue: 0,
             duration: 800,
-            //useNativeDriver: true,
-          }),
-        ]).start();
+          }).start();
+        } else {
+          Animated.spring(animatedValue, {
+            toValue: 180,
+            duration: 800,
+          }).start();
+        }
+        // Animated.parallel([
+        //   Animated.timing(rotateFront, {
+        //     toValue: 180,
+        //     duration: 800,
+        //     //useNativeDriver: true,ok 
+        //   }),
+        //   Animated.timing(rotateBack, {
+        //     toValue: 0,
+        //     duration: 800,
+        //     //useNativeDriver: true,
+        //   }),
+        // ]).start();
       }
     return (
         <View style={[style.numberWrapper,
@@ -108,9 +145,10 @@ export default function NumberCard({
               textColor = {textColor}
             />
             <FlipCard
+              animatedStyle={frontAnimatedStyle}
               flipColor = {flipColor}
               flipColorGrad = {flipColorGrad}
-              setRef={setFrontRef}
+              setRef={transformRef}
               type="front"
               size={size}
               number={number}
@@ -119,9 +157,10 @@ export default function NumberCard({
               textColor = {textColor}
             />
             <FlipCard
+              animatedStyle = {backAnimatedStyle}
               flipColor = {flipColor}
               flipColorGrad = {flipColorGrad}
-              setRef={setBackRef}
+              setRef={transformRef}
               type="back"
               size={size}
               number={number}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Animated } from 'react-native';
 
 import style from '../../style';
 import PropTypes from 'prop-types';

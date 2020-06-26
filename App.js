@@ -19,8 +19,8 @@ export default function App() {
         <CountdownTimer 
           launchYear = {2020} 
           launchMonth = {5}
-          launchDate = {24}
-          launchHour = {11}
+          launchDate = {25}
+          launchHour = {15}
           launchMinute = {0}
           launchSecond = {30}
           showDays = {true}

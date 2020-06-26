@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import style from '../../style';
 
-export default function FlipCard({
-    flipColor, flipColorGrad, textColor, setRef, type, size, number, flipCardStyle, numberStyle
+export default function FlipCard({//setRef
+    animatedValue, animatedStyle, flipColor, flipColorGrad, textColor, type, size, number, flipCardStyle, numberStyle
 }) {
     return(
     <Animated.View
-        ref={setRef}
-        style={[style.flipCard,
+        ref={animatedValue}
+        style={[style.flipCard, animatedStyle,
             type === 'front'
             ? {
                 top: 0,
